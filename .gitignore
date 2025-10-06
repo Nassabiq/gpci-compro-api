@@ -1,0 +1,77 @@
+########################################
+# Go build artifacts
+########################################
+# Binaries and shared objects
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+
+# Test/coverage outputs
+*.out
+coverage.out
+coverage.*
+*.cover
+*.coverprofile
+*.cov
+profile.out
+*.pprof
+*.prof
+cpu.pprof
+mem.pprof
+
+# Build/cache dirs
+bin/
+.gocache/
+.cache/
+dist/
+tmp/
+*.tmp
+
+# Optional Go workspace files
+go.work
+go.work.sum
+
+########################################
+# Environment and secrets
+########################################
+.env
+.env.*
+!.env.example
+.envrc
+.direnv/
+*.pem
+*.key
+*.crt
+*.pfx
+
+########################################
+# Logs
+########################################
+*.log
+logs/
+
+########################################
+# Docker / Compose (local only)
+########################################
+docker-compose.override.yml
+docker-data/
+
+########################################
+# Editors / IDEs
+########################################
+.idea/
+.vscode/
+.fleet/
+.history/
+*.swp
+*.swo
+*~
+
+########################################
+# OS files
+########################################
+.DS_Store
+Thumbs.db
