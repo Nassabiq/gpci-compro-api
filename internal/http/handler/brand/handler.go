@@ -45,8 +45,8 @@ func (h *Handler) CreateBrandCategory(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.Name == "" || payload.Slug == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "name and slug are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	category, err := h.Service.CreateBrandCategory(internalhandler.ContextOrBackground(c), payload)
@@ -66,8 +66,8 @@ func (h *Handler) UpdateBrandCategory(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.Name == "" || payload.Slug == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "name and slug are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	category, err := h.Service.UpdateBrandCategory(internalhandler.ContextOrBackground(c), idVal, payload)
@@ -120,8 +120,8 @@ func (h *Handler) CreateBrand(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.CategoryID == 0 || payload.Name == "" || payload.Slug == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "category_id, name, and slug are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	brand, err := h.Service.CreateBrand(internalhandler.ContextOrBackground(c), payload)
@@ -141,8 +141,8 @@ func (h *Handler) UpdateBrand(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.CategoryID == 0 || payload.Name == "" || payload.Slug == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "category_id, name, and slug are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	brand, err := h.Service.UpdateBrand(internalhandler.ContextOrBackground(c), idVal, payload)

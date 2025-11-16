@@ -10,6 +10,7 @@ type AppConfig struct {
 	WriteTimeout    time.Duration
 	IdleTimeout     time.Duration
 	ShutdownTimeout time.Duration
+	CORS            CORSConfig
 }
 
 func loadAppConfig() AppConfig {
@@ -21,5 +22,6 @@ func loadAppConfig() AppConfig {
 		WriteTimeout:    mustDuration("APP_WRITE_TIMEOUT", "15s"),
 		IdleTimeout:     mustDuration("APP_IDLE_TIMEOUT", "60s"),
 		ShutdownTimeout: mustDuration("SHUTDOWN_TIMEOUT", "10s"),
+		CORS:            loadCORSConfig(),
 	}
 }

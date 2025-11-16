@@ -59,8 +59,8 @@ func (h *Handler) Create(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.CompanyID == 0 || payload.BrandID == 0 || payload.ProgramID == 0 || payload.Name == "" || payload.Slug == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "company_id, brand_id, program_id, name, and slug are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	product, err := h.Service.CreateProduct(internalhandler.ContextOrBackground(c), payload)
@@ -86,8 +86,8 @@ func (h *Handler) Update(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.CompanyID == 0 || payload.BrandID == 0 || payload.ProgramID == 0 || payload.Name == "" || payload.Slug == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "company_id, brand_id, program_id, name, and slug are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	product, err := h.Service.UpdateProduct(internalhandler.ContextOrBackground(c), c.Params("slug"), payload)

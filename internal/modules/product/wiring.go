@@ -10,6 +10,7 @@ import (
 type Module struct {
 	Service              *service.ProductService
 	CertificationService *service.ProductCertificationService
+	ProgramCertService   *service.ProgramCertificateService
 	ProductRepository    service.ProductRepository
 	CertificationRepo    service.ProductCertificationRepository
 }
@@ -17,11 +18,13 @@ type Module struct {
 func Provide(db *sql.DB) *Module {
 	productRepo := postgres.NewProductRepository(db)
 	certRepo := postgres.NewProductCertificationRepository(db)
+	certService := service.NewProductCertificationService(certRepo)
 
 	return &Module{
 		ProductRepository:    productRepo,
 		CertificationRepo:    certRepo,
 		Service:              service.NewProductService(productRepo),
-		CertificationService: service.NewProductCertificationService(certRepo),
+		CertificationService: certService,
+		ProgramCertService:   service.NewProgramCertificateService(certRepo, certService),
 	}
 }

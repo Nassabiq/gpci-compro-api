@@ -63,9 +63,11 @@ func (h *ProductCertificationHandler) CreateProductCertification(c *fiber.Ctx) e
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-
-	if payload.CertificationID == 0 {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "certification_id is required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
+	}
+	if payload.IssueDate != nil && payload.ExpiryDate != nil && payload.IssueDate.After(*payload.ExpiryDate) {
+		return response.Error(c, fiber.StatusBadRequest, "validation_failed", "expiry_date must be after issue_date", fiber.Map{"expiry_date": "must be after issue_date"})
 	}
 
 	cert, err := h.Service.CreateProductCertification(internalhandler.ContextOrBackground(c), c.Params("slug"), payload)
@@ -84,6 +86,12 @@ func (h *ProductCertificationHandler) UpdateProductCertification(c *fiber.Ctx) e
 	var payload domain.ProductCertificationPayload
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
+	}
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
+	}
+	if payload.IssueDate != nil && payload.ExpiryDate != nil && payload.IssueDate.After(*payload.ExpiryDate) {
+		return response.Error(c, fiber.StatusBadRequest, "validation_failed", "expiry_date must be after issue_date", fiber.Map{"expiry_date": "must be after issue_date"})
 	}
 
 	cert, err := h.Service.UpdateProductCertification(internalhandler.ContextOrBackground(c), c.Params("slug"), certID, payload)

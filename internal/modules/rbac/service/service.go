@@ -14,6 +14,8 @@ type Repository interface {
 	AssignPermissionToRole(ctx context.Context, roleName, permKey string) error
 	AssignRoleToUserByXID(ctx context.Context, userXID, roleName string) error
 	UserHasPermissionByXID(ctx context.Context, userXID, permKey string) (bool, error)
+	ListUserRoles(ctx context.Context, userXID string) ([]string, error)
+	ListUserPermissions(ctx context.Context, userXID string) ([]string, error)
 }
 
 type Service struct {
@@ -50,4 +52,12 @@ func (s *Service) AssignRoleToUserByXID(ctx context.Context, userXID, roleName s
 
 func (s *Service) UserHasPermissionByXID(ctx context.Context, userXID, permKey string) (bool, error) {
 	return s.repo.UserHasPermissionByXID(ctx, userXID, permKey)
+}
+
+func (s *Service) ListUserRoles(ctx context.Context, userXID string) ([]string, error) {
+	return s.repo.ListUserRoles(ctx, userXID)
+}
+
+func (s *Service) ListUserPermissions(ctx context.Context, userXID string) ([]string, error) {
+	return s.repo.ListUserPermissions(ctx, userXID)
 }

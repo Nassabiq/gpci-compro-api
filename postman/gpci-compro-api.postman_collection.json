@@ -1,0 +1,1441 @@
+{
+  "info": {
+    "_postman_id": "1f8311c6-8590-4da3-8d4c-5edc3e768d1b",
+    "name": "GPCI ComPro API",
+    "description": "Postman collection generated from internal/app/router.go for quick exploration of the GPCI ComPro API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Root & Utility",
+      "item": [
+        {
+          "name": "GET /",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/",
+              "host": [
+                "{{base_url}}"
+              ]
+            },
+            "description": "Health probe that returns 204 No Content when the service is up."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/ping",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/ping",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "ping"
+              ]
+            },
+            "description": "Simple ping endpoint returning {\"pong\": true}."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/health",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "health"
+              ]
+            },
+            "description": "Detailed service health check."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/notify",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"user_id\": 123,\n  \"message\": \"Hello from Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/notify",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "notify"
+              ]
+            },
+            "description": "Queues a notification for a specific user."
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/me/profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane.updated@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/me/profile",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "me",
+                "profile"
+              ]
+            },
+            "description": "Updates the authenticated user's profile details (requires Authorization: Bearer)."
+          },
+          "response": []
+        },
+        {
+          "name": "PUT /api/me/password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"current_password\": \"P@ssw0rd123\",\n  \"new_password\": \"N3wP@ssw0rd456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/me/password",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "me",
+                "password"
+              ]
+            },
+            "description": "Changes the authenticated user's password (requires Authorization: Bearer)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "POST /api/auth/register",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"password\": \"P@ssw0rd123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "register"
+              ]
+            },
+            "description": "Registers a new user account."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/auth/login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"P@ssw0rd123\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Authenticates a user and returns a JWT access token."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Me",
+      "item": [
+        {
+          "name": "GET /api/me",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/me",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "me"
+              ]
+            },
+            "description": "Returns information about the authenticated user (requires Authorization: Bearer)."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "Programs",
+          "item": [
+            {
+              "name": "GET /api/catalog/programs",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/programs",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "programs"
+                  ]
+                },
+                "description": "Lists all programs."
+              },
+              "response": []
+            },
+            {
+              "name": "POST /api/catalog/programs",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"code\": \"PROG-001\",\n  \"name\": \"Example Program\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/programs",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "programs"
+                  ]
+                },
+                "description": "Creates a new program."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT /api/catalog/programs/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"code\": \"PROG-001\",\n  \"name\": \"Updated Program\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/programs/{{program_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "programs",
+                    "{{program_id}}"
+                  ]
+                },
+                "description": "Updates an existing program by ID."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE /api/catalog/programs/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/programs/{{program_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "programs",
+                    "{{program_id}}"
+                  ]
+                },
+                "description": "Deletes a program by ID."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Statuses",
+          "item": [
+            {
+              "name": "GET /api/catalog/statuses",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/statuses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "statuses"
+                  ]
+                },
+                "description": "Lists all certification statuses."
+              },
+              "response": []
+            },
+            {
+              "name": "POST /api/catalog/statuses",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"code\": \"ACTIVE\",\n  \"name\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/statuses",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "statuses"
+                  ]
+                },
+                "description": "Creates a new certification status."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT /api/catalog/statuses/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"id\": 1,\n  \"code\": \"ACTIVE\",\n  \"name\": \"Active\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/statuses/{{status_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "statuses",
+                    "{{status_id}}"
+                  ]
+                },
+                "description": "Updates a certification status by ID."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE /api/catalog/statuses/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/statuses/{{status_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "statuses",
+                    "{{status_id}}"
+                  ]
+                },
+                "description": "Deletes a certification status by ID."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Brand Categories",
+          "item": [
+            {
+              "name": "GET /api/catalog/brand-categories",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brand-categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brand-categories"
+                  ]
+                },
+                "description": "Lists brand categories with pagination support."
+              },
+              "response": []
+            },
+            {
+              "name": "POST /api/catalog/brand-categories",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Electronics\",\n  \"slug\": \"electronics\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brand-categories",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brand-categories"
+                  ]
+                },
+                "description": "Creates a new brand category."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT /api/catalog/brand-categories/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Electronics\",\n  \"slug\": \"electronics\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brand-categories/{{brand_category_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brand-categories",
+                    "{{brand_category_id}}"
+                  ]
+                },
+                "description": "Updates an existing brand category by ID."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE /api/catalog/brand-categories/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brand-categories/{{brand_category_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brand-categories",
+                    "{{brand_category_id}}"
+                  ]
+                },
+                "description": "Deletes a brand category by ID."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Brands",
+          "item": [
+            {
+              "name": "GET /api/catalog/brands",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brands",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brands"
+                  ]
+                },
+                "description": "Lists brands with pagination and optional category filter."
+              },
+              "response": []
+            },
+            {
+              "name": "POST /api/catalog/brands",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"category_id\": 1,\n  \"name\": \"ACME\",\n  \"slug\": \"acme\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brands",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brands"
+                  ]
+                },
+                "description": "Creates a new brand."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT /api/catalog/brands/:id",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"category_id\": 1,\n  \"name\": \"ACME\",\n  \"slug\": \"acme\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brands/{{brand_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brands",
+                    "{{brand_id}}"
+                  ]
+                },
+                "description": "Updates an existing brand by ID."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE /api/catalog/brands/:id",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/brands/{{brand_id}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "brands",
+                    "{{brand_id}}"
+                  ]
+                },
+                "description": "Deletes a brand by ID."
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Products",
+          "item": [
+            {
+              "name": "GET /api/catalog/products",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products"
+                  ],
+                  "query": [
+                    {
+                      "key": "program",
+                      "value": ""
+                    },
+                    {
+                      "key": "brand",
+                      "value": ""
+                    },
+                    {
+                      "key": "category",
+                      "value": ""
+                    },
+                    {
+                      "key": "search",
+                      "value": ""
+                    },
+                    {
+                      "key": "is_active",
+                      "value": ""
+                    },
+                    {
+                      "key": "page",
+                      "value": ""
+                    },
+                    {
+                      "key": "page_size",
+                      "value": ""
+                    }
+                  ]
+                },
+                "description": "Lists products with filtering and pagination."
+              },
+              "response": []
+            },
+            {
+              "name": "POST /api/catalog/products",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"company_id\": 1,\n  \"brand_id\": 1,\n  \"program_id\": 1,\n  \"name\": \"Product Name\",\n  \"slug\": \"product-name\",\n  \"features\": \"Key features\",\n  \"reason\": null,\n  \"tshp\": {},\n  \"images\": [],\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products"
+                  ]
+                },
+                "description": "Creates a new product."
+              },
+              "response": []
+            },
+            {
+              "name": "GET /api/catalog/products/:slug",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products/{{product_slug}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products",
+                    "{{product_slug}}"
+                  ]
+                },
+                "description": "Gets a product by slug."
+              },
+              "response": []
+            },
+            {
+              "name": "PUT /api/catalog/products/:slug",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"company_id\": 1,\n  \"brand_id\": 1,\n  \"program_id\": 1,\n  \"name\": \"Updated Product\",\n  \"slug\": \"product-name\",\n  \"features\": \"Updated features\",\n  \"reason\": null,\n  \"tshp\": {},\n  \"images\": [],\n  \"is_active\": true\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products/{{product_slug}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products",
+                    "{{product_slug}}"
+                  ]
+                },
+                "description": "Updates a product by slug."
+              },
+              "response": []
+            },
+            {
+              "name": "DELETE /api/catalog/products/:slug",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url}}/api/catalog/products/{{product_slug}}",
+                  "host": [
+                    "{{base_url}}"
+                  ],
+                  "path": [
+                    "api",
+                    "catalog",
+                    "products",
+                    "{{product_slug}}"
+                  ]
+                },
+                "description": "Deletes a product by slug."
+              },
+              "response": []
+            },
+            {
+              "name": "Product Certifications",
+              "item": [
+                {
+                  "name": "GET /api/catalog/products/:slug/certifications",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/catalog/products/{{product_slug}}/certifications",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "catalog",
+                        "products",
+                        "{{product_slug}}",
+                        "certifications"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": ""
+                        },
+                        {
+                          "key": "page_size",
+                          "value": ""
+                        }
+                      ]
+                    },
+                    "description": "Lists certifications for a product with pagination."
+                  },
+                  "response": []
+                },
+                {
+                  "name": "POST /api/catalog/products/:slug/certifications",
+                  "request": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"certification_id\": 1,\n  \"certificate_no\": \"CERT-001\",\n  \"issue_date\": \"2024-01-01T00:00:00Z\",\n  \"expiry_date\": \"2025-01-01T00:00:00Z\",\n  \"status_id\": 1,\n  \"document_file\": \"https://example.com/certs/cert.pdf\",\n  \"meta\": {}\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/catalog/products/{{product_slug}}/certifications",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "catalog",
+                        "products",
+                        "{{product_slug}}",
+                        "certifications"
+                      ]
+                    },
+                    "description": "Creates a new certification for a product."
+                  },
+                  "response": []
+                },
+                {
+                  "name": "PUT /api/catalog/products/:slug/certifications/:certID",
+                  "request": {
+                    "method": "PUT",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"certification_id\": 1,\n  \"certificate_no\": \"CERT-001\",\n  \"issue_date\": \"2024-01-01T00:00:00Z\",\n  \"expiry_date\": \"2025-01-01T00:00:00Z\",\n  \"status_id\": 1,\n  \"document_file\": \"https://example.com/certs/cert.pdf\",\n  \"meta\": {}\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{base_url}}/api/catalog/products/{{product_slug}}/certifications/{{cert_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "catalog",
+                        "products",
+                        "{{product_slug}}",
+                        "certifications",
+                        "{{cert_id}}"
+                      ]
+                    },
+                    "description": "Updates a product certification by ID."
+                  },
+                  "response": []
+                },
+                {
+                  "name": "DELETE /api/catalog/products/:slug/certifications/:certID",
+                  "request": {
+                    "method": "DELETE",
+                    "header": [],
+                    "url": {
+                      "raw": "{{base_url}}/api/catalog/products/{{product_slug}}/certifications/{{cert_id}}",
+                      "host": [
+                        "{{base_url}}"
+                      ],
+                      "path": [
+                        "api",
+                        "catalog",
+                        "products",
+                        "{{product_slug}}",
+                        "certifications",
+                        "{{cert_id}}"
+                      ]
+                    },
+                    "description": "Deletes a product certification by ID."
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Uploads",
+      "item": [
+        {
+          "name": "POST /api/uploads",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "module",
+                  "value": "products",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/uploads",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "uploads"
+              ]
+            },
+            "description": "Uploads a file; accepts form field `file` or `files[]`."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/uploads/images",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "file",
+                  "type": "file",
+                  "src": ""
+                },
+                {
+                  "key": "module",
+                  "value": "images",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/api/uploads/images",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "uploads",
+                "images"
+              ]
+            },
+            "description": "Uploads an image file to the storage service."
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "RBAC",
+      "item": [
+        {
+          "name": "POST /api/rbac/roles",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"admin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/rbac/roles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "rbac",
+                "roles"
+              ]
+            },
+            "description": "Creates a role (requires permission `rbac.roles.write`)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/rbac/permissions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key\": \"catalog.manage\",\n  \"description\": \"Manage catalog resources\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/rbac/permissions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "rbac",
+                "permissions"
+              ]
+            },
+            "description": "Creates a permission (requires permission `rbac.permissions.write`)."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/rbac/roles",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/rbac/roles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "rbac",
+                "roles"
+              ]
+            },
+            "description": "Lists roles (requires permission `rbac.roles.read`)."
+          },
+          "response": []
+        },
+        {
+          "name": "GET /api/rbac/permissions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/rbac/permissions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "rbac",
+                "permissions"
+              ]
+            },
+            "description": "Lists permissions (requires permission `rbac.permissions.read`)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/rbac/roles/:role/permissions",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"permission\": \"catalog.manage\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/rbac/roles/{{role_name}}/permissions",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "rbac",
+                "roles",
+                "{{role_name}}",
+                "permissions"
+              ]
+            },
+            "description": "Assigns a permission to a role (requires permission `rbac.roles.assign`)."
+          },
+          "response": []
+        },
+        {
+          "name": "POST /api/rbac/users/:xid/roles",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{jwt_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"admin\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/api/rbac/users/{{user_xid}}/roles",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "rbac",
+                "users",
+                "{{user_xid}}",
+                "roles"
+              ]
+            },
+            "description": "Assigns a role to a user (requires permission `rbac.users.assign_role`)."
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000"
+    },
+    {
+      "key": "jwt_token",
+      "value": ""
+    },
+    {
+      "key": "program_id",
+      "value": "1"
+    },
+    {
+      "key": "status_id",
+      "value": "1"
+    },
+    {
+      "key": "brand_category_id",
+      "value": "1"
+    },
+    {
+      "key": "brand_id",
+      "value": "1"
+    },
+    {
+      "key": "product_slug",
+      "value": "product-slug"
+    },
+    {
+      "key": "cert_id",
+      "value": "1"
+    },
+    {
+      "key": "role_name",
+      "value": "admin"
+    },
+    {
+      "key": "user_xid",
+      "value": "user_xid_value"
+    }
+  ]
+}

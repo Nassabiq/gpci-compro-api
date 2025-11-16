@@ -27,6 +27,7 @@ func New(ctx context.Context, cfg *config.Config) (*Container, func(), error) {
 	if ctx == nil {
 		ctx = context.Background()
 	}
+
 	logger := utils.NewLogger(cfg.App.Env)
 
 	dsn := db.DSN(cfg.DB.Host, cfg.DB.Port, cfg.DB.User, cfg.DB.Password, cfg.DB.Name, cfg.DB.SSLMode)
@@ -43,6 +44,7 @@ func New(ctx context.Context, cfg *config.Config) (*Container, func(), error) {
 		Secure: cfg.Storage.UseSSL,
 		Region: cfg.Storage.Region,
 	})
+
 	if err != nil {
 		asynqClient.Close()
 		database.Close()

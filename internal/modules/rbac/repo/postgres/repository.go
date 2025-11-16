@@ -114,3 +114,66 @@ func (r *RBACRepository) UserHasPermissionByXID(ctx context.Context, userXID, pe
     `, userXID, permKey).Scan(&ok)
 	return ok, err
 }
+
+func (r *RBACRepository) ListUserRoles(ctx context.Context, userXID string) ([]string, error) {
+	rows, err := r.DB.QueryContext(ctx, `
+		SELECT DISTINCT r.name
+		FROM roles r
+		JOIN user_roles ur ON ur.role_id = r.id
+		JOIN users u ON u.id = ur.user_id
+		WHERE u.xid = $1
+		  AND u.deleted_at IS NULL
+		  AND r.deleted_at IS NULL
+		ORDER BY r.name
+	`, userXID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var roles []string
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			return nil, err
+		}
+		roles = append(roles, name)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return roles, nil
+}
+
+func (r *RBACRepository) ListUserPermissions(ctx context.Context, userXID string) ([]string, error) {
+	rows, err := r.DB.QueryContext(ctx, `
+		SELECT DISTINCT p.key
+		FROM permissions p
+		JOIN role_permissions rp ON rp.permission_id = p.id
+		JOIN roles r ON r.id = rp.role_id
+		JOIN user_roles ur ON ur.role_id = r.id
+		JOIN users u ON u.id = ur.user_id
+		WHERE u.xid = $1
+		  AND u.deleted_at IS NULL
+		  AND r.deleted_at IS NULL
+		  AND p.deleted_at IS NULL
+		ORDER BY p.key
+	`, userXID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var perms []string
+	for rows.Next() {
+		var key string
+		if err := rows.Scan(&key); err != nil {
+			return nil, err
+		}
+		perms = append(perms, key)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return perms, nil
+}

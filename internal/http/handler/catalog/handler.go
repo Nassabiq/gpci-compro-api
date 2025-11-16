@@ -33,8 +33,8 @@ func (h *Handler) CreateProgram(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.ID == 0 || payload.Code == "" || payload.Name == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "id, code, and name are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 	ctx := internalhandler.ContextOrBackground(c)
 	program, err := h.Service.CreateProgram(ctx, payload)
@@ -54,8 +54,8 @@ func (h *Handler) UpdateProgram(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.Code == "" || payload.Name == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "code and name are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	ctx := internalhandler.ContextOrBackground(c)
@@ -95,8 +95,8 @@ func (h *Handler) CreateStatus(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.ID == 0 || payload.Code == "" || payload.Name == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "id, code, and name are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 	ctx := internalhandler.ContextOrBackground(c)
 	status, err := h.Service.CreateStatus(ctx, payload)
@@ -116,8 +116,8 @@ func (h *Handler) UpdateStatus(c *fiber.Ctx) error {
 	if err := c.BodyParser(&payload); err != nil {
 		return response.Error(c, fiber.StatusBadRequest, "invalid_body", "invalid request body", nil)
 	}
-	if payload.Code == "" || payload.Name == "" {
-		return response.Error(c, fiber.StatusBadRequest, "missing_fields", "code and name are required", nil)
+	if err := internalhandler.ValidatePayload(c, &payload); err != nil {
+		return err
 	}
 
 	ctx := internalhandler.ContextOrBackground(c)

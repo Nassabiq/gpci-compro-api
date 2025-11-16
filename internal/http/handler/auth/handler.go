@@ -47,7 +47,7 @@ func (h *Handler) Register(c *fiber.Ctx) error {
 	if err != nil {
 		return response.Error(c, fiber.StatusInternalServerError, "hash_failed", err.Error(), nil)
 	}
-	id, err := h.users.Create(internalhandler.ContextOrBackground(c), in.Name, in.Email, string(hash))
+	id, err := h.users.Create(internalhandler.ContextOrBackground(c), in.Name, in.Email, string(hash), true)
 	if err != nil {
 		return response.Error(c, fiber.StatusInternalServerError, "user_create_failed", err.Error(), nil)
 	}
